@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using Random = UnityEngine.Random;
+using System.Globalization;
 
 public class Typer : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class Typer : MonoBehaviour
 
     private void SetCurrentWord()
     {
-        currentWord = wordBank.GetWord();
+        currentWord = wordBank.GetWord().ToUpper(CultureInfo.InvariantCulture);
         currentIndex = 0;
         currentLetterIsWrong = false; // reset for new word
         UpdateWordOutput();
@@ -82,7 +83,6 @@ public class Typer : MonoBehaviour
             return;
         }
 
-        // Normal typing input
         if (Input.anyKeyDown)
         {
             string keysPressed = Input.inputString;
@@ -143,6 +143,8 @@ public class Typer : MonoBehaviour
     {
         if (currentIndex >= currentWord.Length)
             return;
+        
+        typedLetter = typedLetter.ToUpper(CultureInfo.InvariantCulture);
 
         if (currentLetterIsWrong)
         {
@@ -207,17 +209,17 @@ public class Typer : MonoBehaviour
         {
             if (i < currentIndex)
             {
-                // Correct letters → green
+                // Correct letters are green
                 result += $"<color=green>{currentWord[i]}</color>";
             }
             else if (i == currentIndex && wrong)
             {
-                // Wrong letter → red
+                // Wrong letter is red
                 result += $"<color=red>{currentWord[i]}</color>";
             }
             else
             {
-                // Not yet typed → almost-white
+                //The rest of the letters that are not yet typed are grayish.
                 result += $"<color=#F8F8FF>{currentWord[i]}</color>";
             }
         }
