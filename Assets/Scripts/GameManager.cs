@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private int score;
 
     private float currentTime;
-    private float maxTime = 40;
+    private float maxTime = 60;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,14 +44,26 @@ public class GameManager : MonoBehaviour
 
             if (timeText != null)
             {
-                timeText.text = Mathf.Ceil(currentTime).ToString();
+                timeText.text = FormatTime(currentTime);
             }
 
             if (currentTime <= 0)
             {
+                currentTime = 0;
                 Debug.Log("TIME IS UP YOU LOSE");
                 // You can call a GameOver function here
             }
         }
+    }
+    /// <summary>
+    /// Converts a float time in seconds to a string in HH:MM:SS format.
+    /// </summary>
+    private string FormatTime(float time)
+    {
+        int hours = Mathf.FloorToInt(time / 3600f);
+        int minutes = Mathf.FloorToInt((time % 3600) / 60f);
+        int seconds = Mathf.FloorToInt(time % 60);
+
+        return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
     }
 }
