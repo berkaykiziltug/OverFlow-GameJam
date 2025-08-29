@@ -3,13 +3,19 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using Random = UnityEngine.Random;
 
 public class Typer : MonoBehaviour
 {
+    [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
+    [SerializeField] private float impulseAmount;
+    
+    
     [SerializeField] private WordBank wordBank;
     [SerializeField] private GameObject letterPrefab; 
-    [SerializeField] private Transform spawnParent; 
+    [SerializeField] private Transform spawnParent;
+    [SerializeField] private float letterDestroyTime;
     
     public TextMeshProUGUI wordOutput;
 
@@ -23,6 +29,7 @@ public class Typer : MonoBehaviour
     void Start()
     {
         SetCurrentWord();
+        ImpulseScreenShake();
     }
 
     // Update is called once per frame
@@ -67,6 +74,10 @@ public class Typer : MonoBehaviour
                 SpawnFallingLetters();
                 SetCurrentWord();
             }
+        }
+        else
+        {
+            ImpulseScreenShake();
         }
     }
 
@@ -124,6 +135,8 @@ public class Typer : MonoBehaviour
             
             spawnedWordColliders.AddRange(letterObj.GetComponents<Collider2D>());
             StartCoroutine(DisableIsTrigger());
+            
+            Destroy(letterObj, letterDestroyTime);
         }
     }
 
@@ -134,5 +147,10 @@ public class Typer : MonoBehaviour
         {
             spawnedWordColliders[i].isTrigger = false;
         }
+    }
+
+    private void ImpulseScreenShake()
+    {
+        cinemachineImpulseSource.GenerateImpulse(impulseAmount);
     }
 }
