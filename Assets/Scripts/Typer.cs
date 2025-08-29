@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class Typer : MonoBehaviour
@@ -14,6 +16,8 @@ public class Typer : MonoBehaviour
     private string remainingWord;
     private string currentWord = string.Empty;
     public Action OnWordCompletedSuccess;
+    
+    private List<Collider2D> spawnedWordColliders = new List<Collider2D>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -86,7 +90,8 @@ public class Typer : MonoBehaviour
     {
         Debug.Log("Spawning letters for word: " + currentWord);
         
-        // Get the UI text position and convert to world position
+        spawnedWordColliders.Clear();
+        
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(wordOutput.transform.position);
         worldPos.z = -1f; 
         
@@ -102,23 +107,32 @@ public class Typer : MonoBehaviour
             letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
             
             
-            float spacing = 0.01f; 
-            Vector3 spawnPos = worldPos + new Vector3(
-                Random.Range(-0.1f, 0.1f), 
-                Random.Range(0f, 0.2f),    
-                0
-            );
+            float spacing = 0.01f;
+            Vector3 spawnPos = worldPos;
             letterObj.transform.position = spawnPos;
             
             
             Rigidbody2D rb = letterObj.GetComponent<Rigidbody2D>();
+            Collider2D collider = letterObj.GetComponent<Collider2D>();
+
+            collider.isTrigger = true;
             rb.AddForce(new Vector2(
-                Random.Range(-.1f, .1f),     
-                Random.Range(.3f, .6f)       
+                Random.Range(-.02f, .02f),     
+                Random.Range(-.02f, .02f)       
             ), ForceMode2D.Impulse);
-            
-            
             rb.AddTorque(Random.Range(-20f, 20f));
+            
+            spawnedWordColliders.AddRange(letterObj.GetComponents<Collider2D>());
+            StartCoroutine(DisableIsTrigger());
+        }
+    }
+
+    private IEnumerator DisableIsTrigger()
+    {
+        yield return new WaitForSeconds(.05f);
+        for (int i = 0; i < spawnedWordColliders.Count; i++)
+        {
+            spawnedWordColliders[i].isTrigger = false;
         }
     }
 }
