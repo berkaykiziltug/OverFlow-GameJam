@@ -260,7 +260,7 @@ public class Typer : MonoBehaviour
             GameObject letterObj = Instantiate(letterPrefab, spawnParent);
             
             
-            TextMeshPro letterText = letterObj.GetComponent<TextMeshPro>();
+            TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
             letterText.text = currentWord[i].ToString();
             letterText.fontSize = 5f; 
             letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
