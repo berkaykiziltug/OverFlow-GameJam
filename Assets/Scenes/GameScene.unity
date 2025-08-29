@@ -504,7 +504,7 @@ MonoBehaviour:
   wordBank: {fileID: 354082307}
   letterPrefab: {fileID: 4248070311836219369, guid: d7ed51baa39940a4e876a94a9bacd6df, type: 3}
   spawnParent: {fileID: 925294230}
-  letterDestroyTime: 4
+  letterDestroyTime: 2
   wordOutput: {fileID: 361772878}
 --- !u!1 &519420028
 GameObject:

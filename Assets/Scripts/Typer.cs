@@ -245,6 +245,7 @@ public class Typer : MonoBehaviour
 
     private void SpawnFallingLetters()
     {
+        List<GameObject> lettersForThisWord = new List<GameObject>();
         Debug.Log("Spawning letters for word: " + currentWord);
         
         spawnedWordCollidersList.Clear();
@@ -286,9 +287,10 @@ public class Typer : MonoBehaviour
             
             // Destroy(letterObj, letterDestroyTime);
             spawnedLetters.Add(letterObj);
+            lettersForThisWord.Add(letterObj);
            
         }
-        StartCoroutine(DestroyLettersOneByOne(spawnedLetters));
+        StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
     }
     
     private IEnumerator DisableIsTrigger(Collider2D col)
@@ -305,10 +307,27 @@ public class Typer : MonoBehaviour
     
     private IEnumerator DestroyLettersOneByOne(List<GameObject> letters)
     {
-        foreach (var letter in letters.ToArray())
+        if (letters.Count == 0) yield break;
+
+        float minDelay = 3f; // minimum time before first letter disappears
+        float maxDelay = letterDestroyTime + minDelay; // time for last letter to disappear
+
+        for (int i = 0; i < letters.Count; i++)
         {
-            if (letter != null) Destroy(letter);
-            yield return new WaitForSeconds(letterDestroyTime);
+            // t = 0 for first letter, 1 for last letter
+            float t = i / (float)(letters.Count - 1);
+
+            // calculate how long to wait **before destroying this letter**
+            float waitTime = Mathf.Lerp(minDelay, maxDelay, t);
+
+            yield return new WaitForSeconds(waitTime);
+
+            if (letters[i] != null)
+                Destroy(letters[i]);
         }
+
+        letters.Clear();
     }
+
+
 }
