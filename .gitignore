@@ -1,0 +1,79 @@
+# Unity-specific ignores (based on GitHub's Unity.gitignore)
+# Source: GitHub official Unity.gitignore (latest) :contentReference[oaicite:0]{index=0}
+
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/*.utmp/
+*.log
+*.blend1
+*.blend1.meta
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+# Uncomment to ignore Asset Store Tools plugin
+# /[Aa]ssets/AssetStoreTools*
+
+# Rider-specific entries
+/[Aa]ssets/Plugins/Editor/JetBrains*/   # auto-generated Rider plugin :contentReference[oaicite:1]{index=1}
+*.DotSettings.user                       # personal Rider settings :contentReference[oaicite:2]{index=2}
+.idea/                                   # Rider project directory :contentReference[oaicite:3]{index=3}
+
+# IDE/tool-specific directories
+.vs/                                     # Visual Studio cache
+.vscode/                                 # VS Code settings (if applicable)
+.gradle/                                 # Gradle cache
+
+# Auto-generated project/solution files
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Crash reports & metadata
+sysinfo.txt                              # Unity crash info
+
+# Build artifacts
+*.apk
+*.aab
+*.unitypackage
+*.unitypackage.meta
+*.app
+
+# Third-party / tool-specific metadata
+crashlytics-build.properties
+InitTestScene*.unity*
+
+# Addressables & Visual Scripting (auto-generated)
+Assets/AddressableAssetsData/*/*.bin*
+Assets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db
+Assets/Unity.VisualScripting.Generated/VisualScripting.Flow/UnitOptions.db.meta
+Assets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers
+Assets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
+
+# OS-specific files (macOS/Windows)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+report.xml
