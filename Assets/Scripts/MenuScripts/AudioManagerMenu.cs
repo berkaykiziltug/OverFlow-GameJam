@@ -5,26 +5,49 @@ using UnityEngine.UI;
 
 public class AudioManagerMenu : MonoBehaviour
 {
+    public static AudioManagerMenu Instance;
     public static float sfxVolume;
     public static float musicVolume;
 
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private AudioMixer audioMixer;
+    
+    [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource sfxSource;
+    
+    
     [SerializeField] private AudioClip musicClip;
+    
+    
+    [Header("Mixer Groups")]
+    public AudioMixerGroup musicGroup;
+    public AudioMixerGroup sfxGroup;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
-        // Assign clip before playing
+        DontDestroyOnLoad(this);
         musicSource.clip = musicClip;
-        musicSource.loop = true; // optional
+        musicSource.loop = true; 
         musicSource.Play();
 
-        // Initialize sliders if needed
+        //Initialize Slider.
         if (musicVolumeSlider != null)
         {
-            musicVolumeSlider.value = 1f;
+            musicVolumeSlider.value = .6f;
             musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(); });
         }
 
@@ -34,7 +57,7 @@ public class AudioManagerMenu : MonoBehaviour
             sfxVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(); });
         }
 
-        // Apply initial volumes
+        //Set the initialized volumes.
         SetMusicVolume();
         SetSFXVolume();
     }
@@ -56,4 +79,26 @@ public class AudioManagerMenu : MonoBehaviour
         float dbValue = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20;
         audioMixer.SetFloat("SFX", dbValue);
     }
+
+    public float GetSFXVolume()
+    {
+        return sfxVolume;
+    }
+
+    public float GetMusicVolume()
+    {
+        return  musicVolume;
+    }
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip != null && sfxSource != null)
+        {
+            // Make sure the source is routed to the SFX group
+            if (sfxGroup != null)
+                sfxSource.outputAudioMixerGroup = sfxGroup;
+
+            sfxSource.PlayOneShot(clip);
+        }
+    }
+
 }

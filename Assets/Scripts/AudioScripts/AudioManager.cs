@@ -25,7 +25,6 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        //Change the clip to menu clip at the start of Main Menu and play that.
         musicSource.clip = musicClip;
         musicSource.Play();
                                         

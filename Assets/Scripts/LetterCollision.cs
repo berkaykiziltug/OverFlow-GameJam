@@ -19,7 +19,7 @@ public class LetterCollision : MonoBehaviour
         if (collision.gameObject.CompareTag("Bowl") || 
             collision.gameObject.transform.parent.CompareTag("Bowl"))
         {
-            audioSource.PlayOneShot(hitClip);
+            AudioManagerMenu.Instance.PlaySFX(hitClip);
             hasHitBowl = true;
         }
     }
