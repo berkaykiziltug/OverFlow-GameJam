@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        typer.OnWordCompletedSuccess += Typer_OnWordCompleteSuccess;
+        
         currentTime = 0;
     }
 
@@ -36,10 +36,6 @@ public class GameManager : MonoBehaviour
        
     }
 
-    private void Typer_OnWordCompleteSuccess()
-    {
-        //Run whatever logic you want on word success.
-    }
 
     // Update is called once per frame
     void Update()

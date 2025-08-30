@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using Random = UnityEngine.Random;
 using System.Globalization;
+using EasyTextEffects;
 
 public class Typer : MonoBehaviour
 {
     [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
     [SerializeField] private float impulseAmount;
     
-    
+    [SerializeField] private TextEffect textEffect;
     [SerializeField] private WordBank wordBank;
     [SerializeField] private GameObject letterPrefab; 
     [SerializeField] private Transform spawnParent;
@@ -23,7 +24,6 @@ public class Typer : MonoBehaviour
 
     private string remainingWord;
     private string currentWord = string.Empty;
-    public Action OnWordCompletedSuccess;
     
     private List<Collider2D> spawnedWordCollidersList = new List<Collider2D>();
     private List<GameObject> spawnedLetters = new List<GameObject>();
@@ -32,6 +32,26 @@ public class Typer : MonoBehaviour
 
     
     private int currentIndex = 0; //Typed letter index.
+
+    public EventHandler<OnNewWordSpawnedEventArgs> OnNewWordSpawned;
+    public EventHandler<OnCorrectWordCompletedEventArgs> OnCorrectWordCompleted;
+
+    private string previousWord = "";
+
+    public class OnCorrectWordCompletedEventArgs : EventArgs
+    {
+        public string correctWord;
+    }
+    public class OnNewWordSpawnedEventArgs : EventArgs
+    {
+        public string word;
+    }
+
+    private void Awake()
+    {
+        
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,9 +69,16 @@ public class Typer : MonoBehaviour
     private void SetCurrentWord()
     {
         currentWord = wordBank.GetWord().ToUpper(CultureInfo.InvariantCulture);
+        Debug.Log($"Setting current word to {currentWord}");
         currentIndex = 0;
         currentLetterIsWrong = false; // reset for new word
         UpdateWordOutput();
+        OnNewWordSpawned?.Invoke(this, new OnNewWordSpawnedEventArgs() { word = currentWord });
+    }
+
+    public string GetCurrentWord()
+    {
+        return currentWord;
     }
 
     private void SetRemainingWord(string newString)
@@ -59,19 +86,6 @@ public class Typer : MonoBehaviour
         remainingWord = newString;
         wordOutput.text = remainingWord;
     }
-
-    // private void CheckInput()
-    // {
-    //     if (Input.anyKeyDown)
-    //     {
-    //         string keysPressed = Input.inputString;
-    //
-    //         if (keysPressed.Length == 1)
-    //         {
-    //             EnterLetter(keysPressed);
-    //         }
-    //     }
-    // }
     private void CheckInput()
     {
         if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Return))
@@ -99,47 +113,7 @@ public class Typer : MonoBehaviour
         // Only do something if the current letter is wrong (red)
         UpdateWordOutput(false); 
     }
-
-    // private void EnterLetter(string typedLetter)
-    // {
-    //     if (IsCorrectLetter(typedLetter))
-    //     {
-    //         RemoveLetter();
-    //         if (IsWordComplete())
-    //         {
-    //             OnWordCompletedSuccess?.Invoke();
-    //             SpawnFallingLetters();
-    //             SetCurrentWord();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         ImpulseScreenShake();
-    //     }
-    // }
-    // private void EnterLetter(string typedLetter)
-    // {
-    //     if (currentIndex < currentWord.Length)
-    //     {
-    //         if (typedLetter == currentWord[currentIndex].ToString())
-    //         {
-    //             currentIndex++;
-    //             UpdateWordOutput(false); // correct letter
-    //         }
-    //         else
-    //         {
-    //             UpdateWordOutput(true);  // wrong letter, but word stays intact
-    //             ImpulseScreenShake();
-    //         }
-    //
-    //         if (currentIndex == currentWord.Length)
-    //         {
-    //             OnWordCompletedSuccess?.Invoke();
-    //             SpawnFallingLetters();
-    //             SetCurrentWord();
-    //         }
-    //     }
-    // }
+   
     
     private void EnterLetter(string typedLetter)
     {
@@ -171,37 +145,13 @@ public class Typer : MonoBehaviour
         // Check if word is complete
         if (currentIndex == currentWord.Length)
         {
-            OnWordCompletedSuccess?.Invoke();
+            previousWord = currentWord;
+            Debug.Log("Sending completed word: " + previousWord); // Add this debug line
+            OnCorrectWordCompleted?.Invoke(this, new OnCorrectWordCompletedEventArgs(){correctWord = previousWord});
             SpawnFallingLetters();
-            SetCurrentWord(); // resets currentIndex & flag
+            SetCurrentWord(); // reset currentIndex & flag
         }
     }
-    
-    // private void UpdateWordOutput(bool wrong = false)
-    // {
-    //     string result = "";
-    //
-    //     for (int i = 0; i < currentWord.Length; i++)
-    //     {
-    //         if (i < currentIndex)
-    //         {
-    //             // Correctly typed letters → green
-    //             result += $"<color=green>{currentWord[i]}</color>";
-    //         }
-    //         else if (i == currentIndex && wrong)
-    //         {
-    //             // Current letter typed incorrectly → red
-    //             result += $"<color=red>{currentWord[i]}</color>";
-    //         }
-    //         else
-    //         {
-    //             // Not yet typed → almost white
-    //             result += $"<color=#F8F8FF>{currentWord[i]}</color>";
-    //         }
-    //     }
-    //
-    //     wordOutput.text = result;
-    // }
     
     private void UpdateWordOutput(bool wrong = false)
     {
@@ -225,8 +175,8 @@ public class Typer : MonoBehaviour
                 result += $"<color=#F8F8FF>{currentWord[i]}</color>";
             }
         }
-
         wordOutput.text = result;
+      
     }
 
     private bool IsCorrectLetter(string letter)
