@@ -17,6 +17,7 @@ public class Typer : MonoBehaviour
     [SerializeField] private GameObject letterPrefab; 
     [SerializeField] private Transform spawnParent;
     [SerializeField] private float letterDestroyTime;
+    [SerializeField] private ParticleSystem particleSystem;
     
     public TextMeshProUGUI wordOutput;
 
@@ -160,7 +161,7 @@ public class Typer : MonoBehaviour
         }
         else
         {
-            // Wrong letter → lock it
+            // Wrong letter lock it
             currentLetterIsWrong = true;
             UpdateWordOutput(true);
             ImpulseScreenShake();
@@ -290,6 +291,7 @@ public class Typer : MonoBehaviour
             lettersForThisWord.Add(letterObj);
            
         }
+        
         StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
     }
     
@@ -309,21 +311,29 @@ public class Typer : MonoBehaviour
     {
         if (letters.Count == 0) yield break;
 
-        float minDelay = 3f; // minimum time before first letter disappears
-        float maxDelay = letterDestroyTime + minDelay; // time for last letter to disappear
+        float minDelay = 3f; 
+        float maxDelay = letterDestroyTime + minDelay; 
 
         for (int i = 0; i < letters.Count; i++)
         {
-            // t = 0 for first letter, 1 for last letter
+            
             float t = i / (float)(letters.Count - 1);
 
-            // calculate how long to wait **before destroying this letter**
+            
             float waitTime = Mathf.Lerp(minDelay, maxDelay, t);
 
             yield return new WaitForSeconds(waitTime);
 
             if (letters[i] != null)
+            {
+                if (particleSystem != null)
+                {
+                    ParticleSystem particle =Instantiate(particleSystem,letters[i].transform.position, Quaternion.identity);
+                    particle.Play();
+                }
                 Destroy(letters[i]);
+            }
+                
         }
 
         letters.Clear();

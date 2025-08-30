@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
 
@@ -28,6 +29,12 @@ public class GameManager : MonoBehaviour
 
         typer.OnWordCompletedSuccess += Typer_OnWordCompleteSuccess;
         currentTime = maxTime;
+
+    }
+
+    private void Letter_OnLetterDestroyed(Vector3 position)
+    {
+       
     }
 
     private void Typer_OnWordCompleteSuccess()
