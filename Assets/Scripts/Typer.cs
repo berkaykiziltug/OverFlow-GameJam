@@ -28,6 +28,7 @@ public class Typer : MonoBehaviour
     private List<Collider2D> spawnedWordCollidersList = new List<Collider2D>();
     private List<GameObject> spawnedLetters = new List<GameObject>();
     private bool currentLetterIsWrong = false;
+    private bool canCollide;
 
     
     private int currentIndex = 0; //Typed letter index.
@@ -328,8 +329,10 @@ public class Typer : MonoBehaviour
             {
                 if (particleSystem != null)
                 {
-                    ParticleSystem particle =Instantiate(particleSystem,letters[i].transform.position, Quaternion.identity);
+                    ParticleSystem particle = Instantiate(particleSystem,letters[i].transform.position, Quaternion.identity);
                     particle.Play();
+                    Destroy(particle.gameObject, 
+                        particle.main.duration + particle.main.startLifetime.constantMax);
                 }
                 Destroy(letters[i]);
             }
@@ -338,6 +341,5 @@ public class Typer : MonoBehaviour
 
         letters.Clear();
     }
-
 
 }

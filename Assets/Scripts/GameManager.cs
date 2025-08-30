@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private int score;
 
     private float currentTime;
-    private float maxTime = 60;
+    // private float maxTime = 60;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,8 +28,7 @@ public class GameManager : MonoBehaviour
         }
 
         typer.OnWordCompletedSuccess += Typer_OnWordCompleteSuccess;
-        currentTime = maxTime;
-
+        currentTime = 0;
     }
 
     private void Letter_OnLetterDestroyed(Vector3 position)
@@ -45,22 +44,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentTime > 0)
-        {
-            currentTime -= Time.deltaTime;
-
+            currentTime += Time.deltaTime;
             if (timeText != null)
             {
                 timeText.text = FormatTime(currentTime);
             }
-
-            if (currentTime <= 0)
-            {
-                currentTime = 0;
-                Debug.Log("TIME IS UP YOU LOSE");
-                // You can call a GameOver function here
-            }
-        }
     }
     /// <summary>
     /// Converts a float time in seconds to a string in HH:MM:SS format.
