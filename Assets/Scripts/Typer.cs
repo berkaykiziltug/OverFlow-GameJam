@@ -166,11 +166,12 @@ public class Typer : MonoBehaviour
         // Check if word is complete
         if (currentIndex == currentWord.Length)
         {
+            string completedWord = currentWord;
             previousWord = currentWord;
             Debug.Log("Sending completed word: " + previousWord);
             OnCorrectWordCompleted?.Invoke(this, new OnCorrectWordCompletedEventArgs(){correctWord = previousWord});
             // SpawnFallingLetters();
-            StartCoroutine(SpawnFallingLettersSequentially());
+            StartCoroutine(SpawnFallingLettersSequentially(completedWord));
             SetCurrentWord(); 
         }
     }
@@ -312,10 +313,10 @@ public class Typer : MonoBehaviour
     //     
     //     StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
     // }
-    private IEnumerator SpawnFallingLettersSequentially()
+    private IEnumerator SpawnFallingLettersSequentially(string wordToSpawn)
     {
         List<GameObject> lettersForThisWord = new List<GameObject>();
-        Debug.Log("Spawning letters for word: " + currentWord);
+        Debug.Log("Spawning letters for word: " + wordToSpawn);
         
         spawnedWordCollidersList.Clear();
         spawnedLetters.Clear();
@@ -324,17 +325,17 @@ public class Typer : MonoBehaviour
         worldPos.z = -1f; 
         
         // Spawn letters one by one with delay
-        for (int i = 0; i < currentWord.Length; i++)
+        for (int i = 0; i < wordToSpawn.Length; i++)
         {
             GameObject letterObj = Instantiate(letterPrefab, spawnParent);
             AudioManagerMenu.Instance.PlaySFXPitch(circleGenerateClip, 1.2f, 2.5f);
             
             TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
-            letterText.text = currentWord[i].ToString();
+            letterText.text = wordToSpawn[i].ToString();
             letterText.fontSize = 9f; 
             letterText.color = Color.black;
             
-            float spacing = 0.5f;
+            float spacing = 0.2f;
             Vector3 spawnPos = worldPos + new Vector3((i - currentWord.Length / 2f) * spacing, 0, 0);
             letterObj.transform.position = spawnPos;
             
@@ -344,7 +345,8 @@ public class Typer : MonoBehaviour
 
             // Force letters to fall down with slight horizontal variation
             rb.AddForce(new Vector2(
-                Random.Range(-0.2f, 0.2f),     // horizontal spread
+                0,
+                // Random.Range(-0.005f, 0.005f),     // horizontal spread
                 Random.Range(-10f, -8f)         // downward force
             ), ForceMode2D.Impulse);
             rb.AddTorque(Random.Range(-30f, 30f));

@@ -1,11 +1,13 @@
 using System;
+using EasyTransition;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-
+    [SerializeField] private TransitionSettings transition;
+    [SerializeField] private float loadDelay;
 
     private void Awake()
     {
@@ -25,6 +27,11 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(GAME_SCENE);
+    }
+
+    public void LoadSceneWithTransition()
+    {
+        TransitionManager.Instance().Transition(GAME_SCENE,transition,loadDelay);
     }
 
     public void QuitGame()
