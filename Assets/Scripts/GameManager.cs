@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     
     public static GameManager Instance;
+    public static bool canPlay;
 
     [SerializeField] private Typer typer;
     [SerializeField] private TextMeshProUGUI timeText;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canPlay = true;
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canPlay) return;
             currentTime += Time.deltaTime;
             if (timeText != null)
             {

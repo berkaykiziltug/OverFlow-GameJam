@@ -71,6 +71,7 @@ public class Typer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.canPlay) return;
         CheckInput();
     }
 
@@ -79,7 +80,7 @@ public class Typer : MonoBehaviour
         currentWord = wordBank.GetWord().ToUpper(CultureInfo.InvariantCulture);
         Debug.Log($"Setting current word to {currentWord}");
         currentIndex = 0;
-        currentLetterIsWrong = false; // reset for new word
+        currentLetterIsWrong = false;
         UpdateWordOutput();
         OnNewWordSpawned?.Invoke(this, new OnNewWordSpawnedEventArgs() { word = currentWord });
     }
@@ -96,6 +97,7 @@ public class Typer : MonoBehaviour
     }
     private void CheckInput()
     {
+        
         if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Return))
         {
             if (currentLetterIsWrong)
@@ -157,11 +159,11 @@ public class Typer : MonoBehaviour
         if (currentIndex == currentWord.Length)
         {
             previousWord = currentWord;
-            Debug.Log("Sending completed word: " + previousWord); // Add this debug line
+            Debug.Log("Sending completed word: " + previousWord);
             OnCorrectWordCompleted?.Invoke(this, new OnCorrectWordCompletedEventArgs(){correctWord = previousWord});
             // SpawnFallingLetters();
             StartCoroutine(SpawnFallingLettersSequentially());
-            SetCurrentWord(); // reset currentIndex & flag
+            SetCurrentWord(); 
         }
     }
     
@@ -324,7 +326,7 @@ public class Typer : MonoBehaviour
             letterText.fontSize = 9f; 
             letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
             
-            float spacing = 0.5f; // Increased spacing for horizontal spread
+            float spacing = 0.5f;
             Vector3 spawnPos = worldPos + new Vector3((i - currentWord.Length / 2f) * spacing, 0, 0);
             letterObj.transform.position = spawnPos;
             
@@ -334,8 +336,8 @@ public class Typer : MonoBehaviour
 
             // Force letters to fall down with slight horizontal variation
             rb.AddForce(new Vector2(
-                Random.Range(-0.2f, 0.2f),     // Small horizontal spread
-                Random.Range(-10f, -8f)         // Strong downward force
+                Random.Range(-0.2f, 0.2f),     // horizontal spread
+                Random.Range(-10f, -8f)         // downward force
             ), ForceMode2D.Impulse);
             rb.AddTorque(Random.Range(-30f, 30f));
             
