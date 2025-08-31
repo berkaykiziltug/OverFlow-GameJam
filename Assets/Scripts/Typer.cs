@@ -10,6 +10,7 @@ using EasyTextEffects;
 
 public class Typer : MonoBehaviour
 {
+    public static Typer Instance;
     [Header("Cinemachine Focus Cameras")]
     [SerializeField] private CinemachineCamera focusCamera6;
     [SerializeField] private CinemachineCamera focusCamera8;
@@ -43,6 +44,9 @@ public class Typer : MonoBehaviour
     [SerializeField] private AudioClip wrongLetterClip;
     [SerializeField] private AudioClip[] keyStrokeClips;
     
+    [Header("Shrink Speed")]
+    [SerializeField]float shrinkDuration = 3f; // tweak this for speed
+    
     public TextMeshProUGUI wordOutput;
 
     private string remainingWord;
@@ -72,7 +76,14 @@ public class Typer : MonoBehaviour
 
     private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -471,7 +482,9 @@ public class Typer : MonoBehaviour
                         particle.main.duration + particle.main.startLifetime.constantMax);
                 }
                 lettersSpawnedMasterList.Remove(letters[i]);
-                Destroy(letters[i]);
+                //Coroutine
+                
+                StartCoroutine(ShrinkAndDestroy(letters[i]));
                 
                 UpdateCameraZoom(lettersSpawnedMasterList.Count);
             }
@@ -481,4 +494,40 @@ public class Typer : MonoBehaviour
         letters.Clear();
     }
 
+    private IEnumerator ShrinkAndDestroy(GameObject letter)
+    {
+        if (letter == null) yield break;
+
+        Vector3 startScale = new Vector3(0.7f, 0.7f, 0.7f);
+        Vector3 endScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        float elapsed = 0f;
+
+        while (elapsed < shrinkDuration && letter != null)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / shrinkDuration;
+
+            letter.transform.localScale = Vector3.Lerp(startScale, endScale, t);
+            yield return null;
+        }
+
+        if (letter != null)
+        {
+            Destroy(letter);
+        }
+    }
+
+    public void StopAllCoroutinesWrapper()
+    {
+        StopAllCoroutines();
+        
+        currentWord = "";
+        currentIndex = 0;
+        currentLetterIsWrong = false;
+        UpdateWordOutput();
+        
+        
+    }
+    
 }

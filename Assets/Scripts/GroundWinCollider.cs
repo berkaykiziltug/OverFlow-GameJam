@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class GroundWinCollider : MonoBehaviour
 {
-  
-   
-   
+   [SerializeField] private AudioClip winConditionClip;
    
    [SerializeField] private CinemachineCamera winCamera;
    [SerializeField] private GameObject winPanel;
@@ -17,13 +15,17 @@ public class GroundWinCollider : MonoBehaviour
    [SerializeField] private float visibleTime = 1.5f;
    [SerializeField] private float fadeOutTime = 0.5f;
    [SerializeField] private Vector3 offset = new Vector3(0, 1f, 0);
+
+   public EventHandler OnGameWonEvent;
    private bool hasWon = false;
    private void OnCollisionEnter2D(Collision2D other)
    {
       if (hasWon) return;
       if (other.gameObject.TryGetComponent(out LetterCollision letterCollision))
       {
-         StartCoroutine(SpawnFloatingText("Overflow!",letterCollision.gameObject.transform.position ));
+         StartCoroutine(SpawnFloatingText("TYPEFLOW!",letterCollision.gameObject.transform.position ));
+         OnGameWonEvent?.Invoke(this, EventArgs.Empty);
+         Typer.Instance.StopAllCoroutinesWrapper();
          hasWon = true;
          GameManager.canPlay = false;
          winCamera.Follow = letterCollision.gameObject.transform;
@@ -33,6 +35,7 @@ public class GroundWinCollider : MonoBehaviour
    }
    private IEnumerator SpawnFloatingText(string text, Vector3 startPosition)
    {
+      AudioManagerMenu.Instance.PlaySFX(winConditionClip);
       GameObject textObj = Instantiate(overflowTMP, startPosition, Quaternion.identity);
       TextMeshPro tmp = textObj.GetComponent<TextMeshPro>();
       tmp.text = text;

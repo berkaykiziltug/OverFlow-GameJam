@@ -102,7 +102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OVERFLOW!
+  m_text: TYPEFLOW!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a7ae61e6a7d803749b2330678bb13d80, type: 2}
   m_sharedMaterial: {fileID: -5301500150757236003, guid: a7ae61e6a7d803749b2330678bb13d80, type: 2}

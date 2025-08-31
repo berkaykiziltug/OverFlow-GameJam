@@ -9,9 +9,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public static bool canPlay;
     public static bool isGameStarted;
+    
 
     [SerializeField] private Typer typer;
     [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI timerTextEndGame;
+    [SerializeField] GroundWinCollider groundWinCollider;
 
     private int score;
 
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        groundWinCollider.OnGameWonEvent += GroundWinCollider_OnGameWon;
         canPlay = true;
         if (Instance != null && Instance != this)
         {
@@ -38,6 +42,12 @@ public class GameManager : MonoBehaviour
 
         
         currentTime = 0;
+    }
+
+    private void GroundWinCollider_OnGameWon(object sender, EventArgs e)
+    {
+        timerTextEndGame.text = timeText.text;
+        timeText.text = "";
     }
 
     private void Letter_OnLetterDestroyed(Vector3 position)
@@ -55,6 +65,7 @@ public class GameManager : MonoBehaviour
             if (timeText != null)
             {
                 timeText.text = FormatTime(currentTime);
+                
             }
     }
     /// <summary>
