@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class GroundWinCollider : MonoBehaviour
 {
+  
+   
+   
+   
    [SerializeField] private CinemachineCamera winCamera;
    [SerializeField] private GameObject winPanel;
    [SerializeField] private GameObject overflowTMP;
@@ -24,7 +28,7 @@ public class GroundWinCollider : MonoBehaviour
          GameManager.canPlay = false;
          winCamera.Follow = letterCollision.gameObject.transform;
          winCamera.LookAt = letterCollision.gameObject.transform;
-         winCamera.Priority = 120;
+         winCamera.Priority = 400;
       }
    }
    private IEnumerator SpawnFloatingText(string text, Vector3 startPosition)

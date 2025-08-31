@@ -10,8 +10,23 @@ using EasyTextEffects;
 
 public class Typer : MonoBehaviour
 {
+    [Header("Cinemachine Focus Cameras")]
+    [SerializeField] private CinemachineCamera focusCamera6;
+    [SerializeField] private CinemachineCamera focusCamera8;
+    [SerializeField] private CinemachineCamera focusCamera10;
+    [SerializeField] private CinemachineCamera focusCamera12;
+    
+    private List<GameObject> lettersSpawnedMasterList = new List<GameObject>();
+    
+    [Header("Cinemachine settings")] 
+    [SerializeField] private CinemachineCamera vCam;
+    [SerializeField] private float zoomSpeed = 30f;
+    private float targetMaxZoom = 12f;
     [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
     [SerializeField] private float impulseAmount;
+    [SerializeField] private GameObject focusTarget;
+    
+    
     
     [SerializeField] private TextEffect textEffect;
     [SerializeField] private WordBank wordBank;
@@ -63,6 +78,7 @@ public class Typer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        focusCamera12.Priority = 400;
         SetCurrentWord();
         // wordOutput.text = "<color=green>C</color><color=red>A</color><color=#F5F5F5>T</color>";
         ImpulseScreenShake();
@@ -82,6 +98,51 @@ public class Typer : MonoBehaviour
             return;
         }
         CheckInput();
+        
+    }
+
+    private void LateUpdate()
+    {
+        // vCam.Lens.OrthographicSize = Mathf.Lerp(
+        //     vCam.Lens.OrthographicSize, 
+        //     targetMaxZoom, 
+        //     Time.deltaTime * zoomSpeed
+        // );
+    }
+
+    private void UpdateCameraZoom(int letterCount)
+    {
+        if (letterCount >= 45)
+        {
+            focusCamera6.Priority =300; //most zoomed in
+            focusCamera8.Priority = 0;
+            focusCamera10.Priority = 0;
+            focusCamera12.Priority = 0;
+        }
+            
+        else if (letterCount >= 35)
+        { 
+            focusCamera8.Priority = 300;
+            focusCamera6.Priority =0;
+            focusCamera10.Priority = 0;
+            focusCamera12.Priority = 0;
+        }
+        else if (letterCount >= 10)
+        { 
+            focusCamera10.Priority = 300;
+            focusCamera6.Priority =0;
+            focusCamera8.Priority = 0;
+            focusCamera12.Priority = 0;
+
+        }
+        else
+        {
+            focusCamera12.Priority = 300;
+            focusCamera6.Priority =0;
+            focusCamera8.Priority = 0;
+            focusCamera10.Priority = 0;
+            
+        }
     }
 
     private void SetCurrentWord()
@@ -357,7 +418,11 @@ public class Typer : MonoBehaviour
             
             spawnedLetters.Add(letterObj);
             lettersForThisWord.Add(letterObj);
+
             
+            lettersSpawnedMasterList.Add(letterObj);
+            Debug.Log($"Spawned Letters Count is {lettersSpawnedMasterList.Count}");
+            UpdateCameraZoom(lettersSpawnedMasterList.Count);
             
             // Wait before spawning next letter
             yield return new WaitForSeconds(letterSpawnDelay);
@@ -405,7 +470,10 @@ public class Typer : MonoBehaviour
                     Destroy(particle.gameObject, 
                         particle.main.duration + particle.main.startLifetime.constantMax);
                 }
+                lettersSpawnedMasterList.Remove(letters[i]);
                 Destroy(letters[i]);
+                
+                UpdateCameraZoom(lettersSpawnedMasterList.Count);
             }
                 
         }
