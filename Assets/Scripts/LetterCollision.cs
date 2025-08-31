@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class LetterCollision : MonoBehaviour
 {
-    [SerializeField] private AudioClip hitClip;  // assign your sound
+    [SerializeField] private AudioClip hitClip;  
     private AudioSource audioSource;
-    private bool hasHit = false;  // ensures the sound plays only once
+    private bool hasHit = false; 
 
     private void Awake()
     {

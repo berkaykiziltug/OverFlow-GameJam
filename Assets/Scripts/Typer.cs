@@ -236,8 +236,8 @@ public class Typer : MonoBehaviour
             
             TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
             letterText.text = currentWord[i].ToString();
-            letterText.fontSize = 9f; 
-            letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
+            letterText.fontSize = 9f;
+            letterText.color = Color.black;
             
             
             float spacing = 0.06f;

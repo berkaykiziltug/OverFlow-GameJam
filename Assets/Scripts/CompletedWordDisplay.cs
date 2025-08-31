@@ -33,11 +33,11 @@ public class CompletedWordDisplay : MonoBehaviour
         Debug.Log("Displaying completed word: " + e.correctWord);
         
         correctWordDisplayGO.SetActive(true);
-        // Show the completed word
+        
         correctWordDisplayTMP.text = e.correctWord;
         
         
-        // Play the text effect
+        
         if (correctTextEffect != null)
         {
             correctTextEffect.StopManualEffects();
@@ -48,7 +48,7 @@ public class CompletedWordDisplay : MonoBehaviour
     
     void OnDestroy()
     {
-        // Unsubscribe to prevent memory leaks
+        
         if (typer != null)
             typer.OnCorrectWordCompleted -= Typer_OnWordCompletedSuccess;
     }

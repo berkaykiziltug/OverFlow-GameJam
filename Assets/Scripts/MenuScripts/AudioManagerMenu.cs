@@ -54,7 +54,7 @@ public class AudioManagerMenu : MonoBehaviour
             musicSource.Play();
         };
 
-        //Initialize Slider.
+        
         if (musicVolumeSlider != null)
         {
             musicVolumeSlider.value = .2f;
@@ -67,7 +67,7 @@ public class AudioManagerMenu : MonoBehaviour
             sfxVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(); });
         }
 
-        //Set the initialized volumes.
+        
         SetMusicVolume();
         SetSFXVolume();
     }
@@ -103,7 +103,7 @@ public class AudioManagerMenu : MonoBehaviour
     {
         if (clip != null && sfxSource != null)
         {
-            // Make sure the source is routed to the SFX group
+            
             if (sfxGroup != null)
                 sfxSource.outputAudioMixerGroup = sfxGroup;
 

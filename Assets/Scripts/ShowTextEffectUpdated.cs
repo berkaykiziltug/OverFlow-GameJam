@@ -47,7 +47,7 @@ public class ShowTextEffectUpdated : MonoBehaviour
     
     void OnDestroy()
     {
-        // Unsubscribe to prevent memory leaks
+        
         if (typer != null)
             typer.OnNewWordSpawned -= Typer_OnNewWordSpawned;
     }
