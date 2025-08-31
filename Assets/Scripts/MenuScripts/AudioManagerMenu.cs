@@ -129,5 +129,24 @@ public class AudioManagerMenu : MonoBehaviour
             sfxSource.pitch = 1f;
         }
     }
+    public void PlayRandomSFXWithPitch(AudioClip[] clips, float minPitch, float maxPitch)
+    {
+        if (clips != null && clips.Length > 0 && sfxSource != null)
+        {
+            AudioClip randomClip = clips[Random.Range(0, clips.Length)];
+        
+            if (randomClip != null)
+            {
+                if (sfxGroup != null)
+                    sfxSource.outputAudioMixerGroup = sfxGroup;
+
+                sfxSource.pitch = Random.Range(minPitch, maxPitch);
+            
+                sfxSource.PlayOneShot(randomClip);
+            
+                sfxSource.pitch = 1f;
+            }
+        }
+    }
 
 }

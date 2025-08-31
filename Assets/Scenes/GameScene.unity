@@ -821,6 +821,13 @@ MonoBehaviour:
   letterSpawnDelay: 0.06
   circleGenerateClip: {fileID: 8300000, guid: 2e52821469b18454e9c13d4f6e1b0b93, type: 3}
   circleDropClip: {fileID: 8300000, guid: 0bb3ee89abe987c4892336170bc6702f, type: 3}
+  correctLetterClip: {fileID: 8300000, guid: 9b87c4b598e2f8f4684a5f2f2eafe9de, type: 3}
+  wrongLetterClip: {fileID: 8300000, guid: ad77ad3a124dc8342aa848ec925156c1, type: 3}
+  keyStrokeClips:
+  - {fileID: 8300000, guid: 4d82af626581a6043a39a323e703d3e0, type: 3}
+  - {fileID: 8300000, guid: 681c7d47348b97b4092e3f5aad3482b2, type: 3}
+  - {fileID: 8300000, guid: 46d50c9d21fa0b043bf210734c7d30b1, type: 3}
+  - {fileID: 8300000, guid: a02285c2667048c48b8b43ed6f262539, type: 3}
   wordOutput: {fileID: 361772878}
 --- !u!1 &519420028
 GameObject:

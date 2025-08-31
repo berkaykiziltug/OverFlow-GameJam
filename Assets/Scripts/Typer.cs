@@ -24,6 +24,9 @@ public class Typer : MonoBehaviour
     [Header("Sounds")] 
     [SerializeField] private AudioClip circleGenerateClip;
     [SerializeField] private AudioClip circleDropClip;
+    [SerializeField] private AudioClip correctLetterClip;
+    [SerializeField] private AudioClip wrongLetterClip;
+    [SerializeField] private AudioClip[] keyStrokeClips;
     
     public TextMeshProUGUI wordOutput;
 
@@ -132,17 +135,20 @@ public class Typer : MonoBehaviour
             //Need to reset to type further. (Press backspace to delete basically)
             return;
         }
+        AudioManagerMenu.Instance.PlayRandomSFXWithPitch(keyStrokeClips, 1.2f,2.5f);
 
         if (typedLetter == currentWord[currentIndex].ToString())
         {
             // Correct letter
             currentIndex++;
             UpdateWordOutput(false);
+            AudioManagerMenu.Instance.PlaySFX(correctLetterClip);
         }
         else
         {
             // Wrong letter lock it
             currentLetterIsWrong = true;
+            AudioManagerMenu.Instance.PlaySFX(wrongLetterClip);
             UpdateWordOutput(true);
             ImpulseScreenShake();
         }
