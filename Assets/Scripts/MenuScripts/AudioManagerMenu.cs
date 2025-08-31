@@ -2,12 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class AudioManagerMenu : MonoBehaviour
 {
     public static AudioManagerMenu Instance;
     public static float sfxVolume;
     public static float musicVolume;
+    [SerializeField] private PlayButton playButton;
 
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
@@ -18,7 +20,8 @@ public class AudioManagerMenu : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
     
     
-    [SerializeField] private AudioClip musicClip;
+    [SerializeField] private AudioClip mainMenuMusicClip;
+    [SerializeField] private AudioClip gameMusicClip;
     
     
     [Header("Mixer Groups")]
@@ -40,14 +43,21 @@ public class AudioManagerMenu : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
-        musicSource.clip = musicClip;
+        musicSource.clip = mainMenuMusicClip;
         musicSource.loop = true; 
         musicSource.Play();
+
+        playButton.onPlayButtonPressedEventHandler += (sender,e) =>
+        {
+            musicSource.clip = gameMusicClip;
+            musicSource.loop = true;
+            musicSource.Play();
+        };
 
         //Initialize Slider.
         if (musicVolumeSlider != null)
         {
-            musicVolumeSlider.value = .6f;
+            musicVolumeSlider.value = .2f;
             musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(); });
         }
 
@@ -98,6 +108,25 @@ public class AudioManagerMenu : MonoBehaviour
                 sfxSource.outputAudioMixerGroup = sfxGroup;
 
             sfxSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlaySFXPitch(AudioClip clip, float minPitch, float maxPitch)
+    {
+        if (clip != null && sfxSource != null)
+        {
+            
+            if (sfxGroup != null)
+                sfxSource.outputAudioMixerGroup = sfxGroup;
+
+            
+            sfxSource.pitch = Random.Range(minPitch, maxPitch);
+        
+            
+            sfxSource.PlayOneShot(clip);
+        
+            
+            sfxSource.pitch = 1f;
         }
     }
 

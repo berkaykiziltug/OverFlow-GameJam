@@ -2563,12 +2563,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01e736f42629274d95192e52e7ca875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playButton: {fileID: 2067297212}
   sfxVolumeSlider: {fileID: 2081862669}
   musicVolumeSlider: {fileID: 310376901}
   audioMixer: {fileID: 24100000, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
   musicSource: {fileID: 1142922435}
   sfxSource: {fileID: 1142922436}
-  musicClip: {fileID: 8300000, guid: 79588a0c6a98bb14998c07f42ae79d30, type: 3}
+  mainMenuMusicClip: {fileID: 8300000, guid: 79588a0c6a98bb14998c07f42ae79d30, type: 3}
+  gameMusicClip: {fileID: 8300000, guid: 9ae9fe519c7ec8049b1c6fbccd744ca8, type: 3}
   musicGroup: {fileID: -1433930736350204987, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
   sfxGroup: {fileID: -7769447390641579456, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
 --- !u!82 &1142922435

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class PlayButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] private AudioClip onPlayButtonClip;
     [SerializeField] private AudioClip onPlayButtonPressedClip;
 
+    public EventHandler onPlayButtonPressedEventHandler;
     private Button playButton;
 
     void Start()
@@ -15,6 +17,9 @@ public class PlayButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         
         playButton.onClick.AddListener(() => 
             AudioManagerMenu.Instance.PlaySFX(onPlayButtonPressedClip));
+
+        playButton.onClick.AddListener(PlayButtonOnClickedFireEvent);
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -26,4 +31,10 @@ public class PlayButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         
     }
+
+    public void PlayButtonOnClickedFireEvent()
+    {
+        onPlayButtonPressedEventHandler?.Invoke(this, EventArgs.Empty);
+    }
+    
 }

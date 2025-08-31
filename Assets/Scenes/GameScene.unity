@@ -818,6 +818,9 @@ MonoBehaviour:
   spawnParent: {fileID: 925294230}
   letterDestroyTime: 2
   particleSystem: {fileID: 3017029494101068524, guid: 3e710b5283253944b9d270aed2483f84, type: 3}
+  letterSpawnDelay: 0.06
+  circleGenerateClip: {fileID: 8300000, guid: 2e52821469b18454e9c13d4f6e1b0b93, type: 3}
+  circleDropClip: {fileID: 8300000, guid: 0bb3ee89abe987c4892336170bc6702f, type: 3}
   wordOutput: {fileID: 361772878}
 --- !u!1 &519420028
 GameObject:
@@ -1563,7 +1566,7 @@ Transform:
   m_GameObject: {fileID: 925294229}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.97, z: 0}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

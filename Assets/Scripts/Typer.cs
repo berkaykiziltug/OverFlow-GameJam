@@ -19,6 +19,11 @@ public class Typer : MonoBehaviour
     [SerializeField] private Transform spawnParent;
     [SerializeField] private float letterDestroyTime;
     [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private float letterSpawnDelay = .8f;
+
+    [Header("Sounds")] 
+    [SerializeField] private AudioClip circleGenerateClip;
+    [SerializeField] private AudioClip circleDropClip;
     
     public TextMeshProUGUI wordOutput;
 
@@ -148,7 +153,8 @@ public class Typer : MonoBehaviour
             previousWord = currentWord;
             Debug.Log("Sending completed word: " + previousWord); // Add this debug line
             OnCorrectWordCompleted?.Invoke(this, new OnCorrectWordCompletedEventArgs(){correctWord = previousWord});
-            SpawnFallingLetters();
+            // SpawnFallingLetters();
+            StartCoroutine(SpawnFallingLettersSequentially());
             SetCurrentWord(); // reset currentIndex & flag
         }
     }
@@ -240,11 +246,108 @@ public class Typer : MonoBehaviour
             // Destroy(letterObj, letterDestroyTime);
             spawnedLetters.Add(letterObj);
             lettersForThisWord.Add(letterObj);
-           
+        }
+        StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
+    }
+    // private IEnumerator SpawnFallingLettersSequentially()
+    // {
+    //     List<GameObject> lettersForThisWord = new List<GameObject>();
+    //     Debug.Log("Spawning letters for word: " + currentWord);
+    //     
+    //     spawnedWordCollidersList.Clear();
+    //     spawnedLetters.Clear();
+    //     
+    //     Vector3 worldPos = Camera.main.ScreenToWorldPoint(wordOutput.transform.position);
+    //     worldPos.z = -1f; 
+    //     
+    //     for (int i = 0; i < currentWord.Length; i++)
+    //     {
+    //         GameObject letterObj = Instantiate(letterPrefab, spawnParent);
+    //         
+    //         TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
+    //         letterText.text = currentWord[i].ToString();
+    //         letterText.fontSize = 9f; 
+    //         letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
+    //         
+    //         float spacing = 0.06f;
+    //         Vector3 spawnPos = worldPos;
+    //         letterObj.transform.position = spawnPos;
+    //         
+    //         Rigidbody2D rb = letterObj.GetComponent<Rigidbody2D>();
+    //         Collider2D collider = letterObj.GetComponent<Collider2D>();
+    //         collider.isTrigger = true;
+    //
+    //         rb.AddForce(new Vector2(
+    //             Random.Range(-.05f, .05f),     
+    //             Random.Range(-.05f, .05f)       
+    //         ), ForceMode2D.Impulse);
+    //         rb.AddTorque(Random.Range(-30f, 30f));
+    //         
+    //         spawnedWordCollidersList.AddRange(letterObj.GetComponents<Collider2D>());
+    //         
+    //         StartCoroutine(DisableIsTrigger(collider));
+    //         
+    //         spawnedLetters.Add(letterObj);
+    //         lettersForThisWord.Add(letterObj);
+    //         
+    //         // Wait before spawning next letter
+    //         yield return new WaitForSeconds(letterSpawnDelay);
+    //     }
+    //     
+    //     StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
+    // }
+    private IEnumerator SpawnFallingLettersSequentially()
+    {
+        List<GameObject> lettersForThisWord = new List<GameObject>();
+        Debug.Log("Spawning letters for word: " + currentWord);
+        
+        spawnedWordCollidersList.Clear();
+        spawnedLetters.Clear();
+        
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(wordOutput.transform.position);
+        worldPos.z = -1f; 
+        
+        // Spawn letters one by one with delay
+        for (int i = 0; i < currentWord.Length; i++)
+        {
+            GameObject letterObj = Instantiate(letterPrefab, spawnParent);
+            AudioManagerMenu.Instance.PlaySFXPitch(circleGenerateClip, 1.2f, 2.5f);
+            
+            TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
+            letterText.text = currentWord[i].ToString();
+            letterText.fontSize = 9f; 
+            letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
+            
+            float spacing = 0.5f; // Increased spacing for horizontal spread
+            Vector3 spawnPos = worldPos + new Vector3((i - currentWord.Length / 2f) * spacing, 0, 0);
+            letterObj.transform.position = spawnPos;
+            
+            Rigidbody2D rb = letterObj.GetComponent<Rigidbody2D>();
+            Collider2D collider = letterObj.GetComponent<Collider2D>();
+            collider.isTrigger = true;
+
+            // Force letters to fall down with slight horizontal variation
+            rb.AddForce(new Vector2(
+                Random.Range(-0.2f, 0.2f),     // Small horizontal spread
+                Random.Range(-10f, -8f)         // Strong downward force
+            ), ForceMode2D.Impulse);
+            rb.AddTorque(Random.Range(-30f, 30f));
+            
+            spawnedWordCollidersList.AddRange(letterObj.GetComponents<Collider2D>());
+            
+            StartCoroutine(DisableIsTrigger(collider));
+            
+            spawnedLetters.Add(letterObj);
+            lettersForThisWord.Add(letterObj);
+            
+            
+            // Wait before spawning next letter
+            yield return new WaitForSeconds(letterSpawnDelay);
         }
         
         StartCoroutine(DestroyLettersOneByOne(lettersForThisWord));
     }
+
     
     private IEnumerator DisableIsTrigger(Collider2D col)
     {
