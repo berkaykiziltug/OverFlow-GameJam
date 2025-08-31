@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 147035893}
   - component: {fileID: 147035896}
   - component: {fileID: 147035895}
+  - component: {fileID: 147035897}
   - component: {fileID: 147035894}
   m_Layer: 5
   m_Name: CreditsButton
@@ -964,6 +965,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 147035892}
   m_CullTransparentMesh: 1
+--- !u!114 &147035897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147035892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb239fabefe12342b56904e59f2bc43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCreditsButtonClip: {fileID: 8300000, guid: 7f48b0a2b60036f46a2e65d433730ae7, type: 3}
+  onCreditsButtonPressedClip: {fileID: 8300000, guid: bcdcd1a57a137644e87b6cb34d91d733, type: 3}
 --- !u!1 &195374878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,7 +2568,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
   musicSource: {fileID: 1142922435}
   sfxSource: {fileID: 1142922436}
-  musicClip: {fileID: 8300000, guid: 47d30a6b00c67a84a9142fd5f54ebc79, type: 3}
+  musicClip: {fileID: 8300000, guid: 79588a0c6a98bb14998c07f42ae79d30, type: 3}
   musicGroup: {fileID: -1433930736350204987, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
   sfxGroup: {fileID: -7769447390641579456, guid: b7f2a7f4f07919a4280561beb7058b78, type: 2}
 --- !u!82 &1142922435
@@ -3302,6 +3317,7 @@ GameObject:
   - component: {fileID: 1294415852}
   - component: {fileID: 1294415855}
   - component: {fileID: 1294415854}
+  - component: {fileID: 1294415856}
   - component: {fileID: 1294415853}
   m_Layer: 5
   m_Name: SettingsButton
@@ -3436,6 +3452,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294415851}
   m_CullTransparentMesh: 1
+--- !u!114 &1294415856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294415851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d08fae49273d0458b60e453b6b6d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSettingsButtonClip: {fileID: 8300000, guid: 7f48b0a2b60036f46a2e65d433730ae7, type: 3}
+  onSettingsButtonPressedClip: {fileID: 8300000, guid: bcdcd1a57a137644e87b6cb34d91d733, type: 3}
 --- !u!1 &1301577874
 GameObject:
   m_ObjectHideFlags: 0
@@ -3447,6 +3477,7 @@ GameObject:
   - component: {fileID: 1301577875}
   - component: {fileID: 1301577878}
   - component: {fileID: 1301577877}
+  - component: {fileID: 1301577879}
   - component: {fileID: 1301577876}
   m_Layer: 5
   m_Name: BackButton
@@ -3581,6 +3612,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301577874}
   m_CullTransparentMesh: 1
+--- !u!114 &1301577879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301577874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1f5fcf52c6fd7499ebac8e07acc571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onBackButtonClip: {fileID: 8300000, guid: 7f48b0a2b60036f46a2e65d433730ae7, type: 3}
+  onBackButtonPressedClip: {fileID: 8300000, guid: bcdcd1a57a137644e87b6cb34d91d733, type: 3}
 --- !u!1 &1316845385
 GameObject:
   m_ObjectHideFlags: 0
@@ -4140,6 +4185,7 @@ GameObject:
   - component: {fileID: 1432188548}
   - component: {fileID: 1432188551}
   - component: {fileID: 1432188550}
+  - component: {fileID: 1432188552}
   - component: {fileID: 1432188549}
   m_Layer: 5
   m_Name: CancelButton
@@ -4274,6 +4320,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432188547}
   m_CullTransparentMesh: 1
+--- !u!114 &1432188552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432188547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1f5fcf52c6fd7499ebac8e07acc571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onBackButtonClip: {fileID: 8300000, guid: 7f48b0a2b60036f46a2e65d433730ae7, type: 3}
+  onBackButtonPressedClip: {fileID: 8300000, guid: bcdcd1a57a137644e87b6cb34d91d733, type: 3}
 --- !u!1 &1466370123
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,6 +5229,7 @@ GameObject:
   - component: {fileID: 2067297208}
   - component: {fileID: 2067297211}
   - component: {fileID: 2067297210}
+  - component: {fileID: 2067297212}
   - component: {fileID: 2067297209}
   m_Layer: 5
   m_Name: PlayButton
@@ -5291,6 +5352,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067297207}
   m_CullTransparentMesh: 1
+--- !u!114 &2067297212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067297207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b8275a44e74654ba30c59c54928c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPlayButtonClip: {fileID: 8300000, guid: 7f48b0a2b60036f46a2e65d433730ae7, type: 3}
+  onPlayButtonPressedClip: {fileID: 8300000, guid: bcdcd1a57a137644e87b6cb34d91d733, type: 3}
 --- !u!1 &2081862667
 GameObject:
   m_ObjectHideFlags: 0
