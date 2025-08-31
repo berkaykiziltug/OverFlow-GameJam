@@ -1,3 +1,4 @@
+using System;
 using MoreMountains.Feedbacks;
 using TMPro;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     
     public static GameManager Instance;
     public static bool canPlay;
+    public static bool isGameStarted;
 
     [SerializeField] private Typer typer;
     [SerializeField] private TextMeshProUGUI timeText;
@@ -14,6 +16,11 @@ public class GameManager : MonoBehaviour
     private int score;
 
     private float currentTime;
+
+    private void Awake()
+    {
+        isGameStarted = false;
+    }
     // private float maxTime = 60;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +50,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (!canPlay) return;
+        if (!isGameStarted) return;
             currentTime += Time.deltaTime;
             if (timeText != null)
             {

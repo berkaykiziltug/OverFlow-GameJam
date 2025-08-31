@@ -72,6 +72,15 @@ public class Typer : MonoBehaviour
     void Update()
     {
         if (!GameManager.canPlay) return;
+        if (!GameManager.isGameStarted)
+        {
+            if (Input.anyKeyDown)
+            {
+                GameManager.isGameStarted = true;
+                Debug.Log($"Game Started");
+            }
+            return;
+        }
         CheckInput();
     }
 
@@ -97,7 +106,6 @@ public class Typer : MonoBehaviour
     }
     private void CheckInput()
     {
-        
         if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Return))
         {
             if (currentLetterIsWrong)
