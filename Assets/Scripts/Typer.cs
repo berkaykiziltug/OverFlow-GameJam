@@ -332,7 +332,7 @@ public class Typer : MonoBehaviour
             TextMeshPro letterText = letterObj.GetComponentInChildren<TextMeshPro>();
             letterText.text = currentWord[i].ToString();
             letterText.fontSize = 9f; 
-            letterText.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.8f, 1f);
+            letterText.color = Color.black;
             
             float spacing = 0.5f;
             Vector3 spawnPos = worldPos + new Vector3((i - currentWord.Length / 2f) * spacing, 0, 0);
